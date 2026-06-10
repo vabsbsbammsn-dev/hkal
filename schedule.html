@@ -1,0 +1,366 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body, .wrap { background: #1a1a2e; }
+  .wrap { padding: 1.2rem; font-family: var(--font-sans); min-height: 100vh; background: #1a1a2e; border-radius: 12px; }
+  .day-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .tab {
+    padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 500;
+    cursor: pointer; border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5);
+    transition: all .2s;
+  }
+  .tab.active {
+    background: linear-gradient(90deg, #a78bfa, #f0abfc);
+    color: #1a1a2e; border-color: transparent; font-weight: 600;
+  }
+  .schedule { display: none; }
+  .schedule.active { display: block; }
+  .block { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
+  .time-col {
+    min-width: 108px; font-size: 12px; font-weight: 700;
+    background: linear-gradient(90deg, #a78bfa, #f9a8d4);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; padding-top: 10px; flex-shrink: 0;
+  }
+  .block-card {
+    flex: 1; border-radius: 10px; padding: 10px 14px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-left: 3px solid transparent;
+    backdrop-filter: blur(8px);
+  }
+  .block-card.morning { border-left-color: #86efac; }
+  .block-card.gym     { border-left-color: #a78bfa; }
+  .block-card.content { border-left-color: #60a5fa; }
+  .block-card.biz     { border-left-color: #fbbf24; }
+  .block-card.free    { border-left-color: #34d399; }
+  .block-card.wind    { border-left-color: #f9a8d4; }
+  .block-card.learn   { border-left-color: #c084fc; }
+  .block-card.food    { border-left-color: #94a3b8; }
+  .block-title { font-size: 13px; font-weight: 600; color: #f1f5f9; margin: 0 0 3px; }
+  .block-desc  { font-size: 12px; color: rgba(255,255,255,0.55); margin: 0; line-height: 1.6; }
+  .divider-label {
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .08em; margin: 16px 0 8px; padding-left: 120px;
+    background: linear-gradient(90deg, #a78bfa, #f9a8d4);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .sleep-banner {
+    margin-top: 16px; padding: 10px 16px; border-radius: 10px;
+    font-size: 13px; font-weight: 500; color: #d1fae5;
+    background: rgba(52, 211, 153, 0.12);
+    border: 1px solid rgba(52, 211, 153, 0.25);
+  }
+  .note-box {
+    margin-top: 12px; padding: 10px 14px; border-radius: 10px;
+    font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.6;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .note-box strong { color: #f1f5f9; font-weight: 500; }
+</style>
+
+<div class="wrap">
+  <div class="day-tabs">
+    <div class="tab active" onclick="showDay('gym', this)">Вт / Чт / Сб — Зал</div>
+    <div class="tab" onclick="showDay('project', this)">Пн / Ср / Пт — Проект</div>
+    <div class="tab" onclick="showDay('sunday', this)">Воскресенье</div>
+  </div>
+
+  <!-- ДНИ ЗАЛА -->
+  <div class="schedule active" id="day-gym">
+    <div class="divider-label">Подъём и выход</div>
+    <div class="block">
+      <div class="time-col">06:00 – 06:30</div>
+      <div class="block-card morning">
+        <p class="block-title">Подъём — быстрый запуск</p>
+        <p class="block-desc">Вода, гепатопротекторы, умывание под медитацию. План дня — 3 минуты. Телефон в авиарежиме. Никаких соцсетей до зала.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="time-col">06:30 – 07:00</div>
+      <div class="block-card gym">
+        <p class="block-title">Дорога в зал на велосипеде</p>
+        <p class="block-desc">30 минут — физическая и ментальная разминка перед клиентами. Музыка или тишина, без подкастов.</p>
+      </div>
+    </div>
+
+    <div class="divider-label">Зал</div>
+    <div class="block">
+      <div class="time-col">07:00 – 13:00</div>
+      <div class="block-card gym">
+        <p class="block-title">Тренировки клиентов + личная силовая</p>
+        <p class="block-desc">Клиенты с 07:00. Раз в 3 дня — только съёмка сторис (5–10 мин). Монтаж и выставление — дома в контент-блоке. Личная силовая в конце. Спортпит сразу после.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="time-col">13:00 – 13:30</div>
+      <div class="block-card gym">
+        <p class="block-title">Дорога домой на велосипеде</p>
+        <p class="block-desc">Переключение из рабочего режима. Телефон убрать — 30 минут тишины для головы.</p>
+      </div>
+    </div>
+
+    <div class="divider-label">Восстановление</div>
+    <div class="block">
+      <div class="time-col">13:30 – 14:30</div>
+      <div class="block-card food">
+        <p class="block-title">Приезд, готовка, обед</p>
+        <p class="block-desc">Готовишь и ешь не спеша — 40–50 минут. Музыка, перезагрузка. Заносишь приём в Yazio.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="time-col">14:30 – 14:40</div>
+      <div class="block-card biz">
+        <p class="block-title">Директ — утренний блок</p>
+        <p class="block-desc">Ответы клиентам, перевод заявок в личку. Строго 10 минут. Закрыл — не открываешь до вечера.</p>
+      </div>
+    </div>
+
+    <div class="divider-label">Дневной рабочий блок</div>
+    <div class="block">
+      <div class="time-col">14:40 – 16:10</div>
+      <div class="block-card content">
+        <p class="block-title">Контент-блок</p>
+        <p class="block-desc">День 1 — снимаешь ролик. День 2 — монтируешь то, что снял вчера. Раз в 3 дня — монтаж и выставление сторис из зала. Сторителлинг раз в неделю — занимает весь слот.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="time-col">16:10 – 17:10</div>
+      <div class="block-card learn">
+        <p class="block-title">Обучение — через день</p>
+        <p class="block-desc">Урок или домашка — чередуются. Когда нет обучения — слот идёт на воронку или закрытие задач.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="time-col">17:10 – 17:40</div>
+      <div class="block-card biz">
+        <p class="block-title">Воронка / автоматизация / сайт</p>
+        <p class="block-desc">В дни без обучения — 1 час. В дни с обучением — 30 минут только срочные правки. Таймер поставить.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="time-col">17:40 – 18:00</div>
+      <div class="block-card biz">
+        <p class="block-title">Директ вечерний + итоги дня</p>
+        <p class="block-desc">10 мин — ответы. 10 мин — список задач на завтра, Yazio. Ноутбук закрыт.</p>
+      </div>
+    </div>
+
+    <div class="divider-label">Вечер — тотальная свобода</div>
+    <div class="block">
+      <div class="time-col">18:00 – 22:30</div>
+      <div class="block-card free">
+        <p class="block-title">Тотальная свобода — 4.5 часа</p>
+        <p class="block-desc">Жена, прогулка, шаги, город. Голова полностью отключена. Кортизол снижается. Никаких рабочих задач.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="time-col">22:30 – 22:50</div>
+      <div class="block-card wind">
+        <p class="block-title">Замедление</p>
+        <p class="block-desc">Техника благодарности в дневник. Спокойная музыка. Общение с женой без важных тем.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="time-col">22:50 – 23:00</div>
+      <div class="block-card wind">
+        <p class="block-title">Отбой</p>
+        <p class="block-desc">Книга или природа — 10 минут. Строгий отбой не позже 23:00.</p>
+      </div>
+    </div>
+    <div class="sleep-banner">✅ Сон в дни зала: 23:00 → 06:00 = 7 часов. Если ляжешь в 22:30 — ещё лучше.</div>
+  </div>
+
+  <!-- ПРОЕКТНЫЕ ДНИ -->
+  <div class="schedule" id="day-project">
+    <div class="divider-label">Утро — запуск</div>
+    <div class="block">
+      <div class="time-col">07:00 – 07:30</div>
+      <div class="block-card morning">
+        <p class="block-title">Подъём и настройка</p>
+        <p class="block-desc">Вода, гепатопротекторы, медитация под умывание. Телефон в авиарежиме. План дня — 3 минуты. Море с утра — идеально.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="time-col">07:30 – 08:45</div>
+      <div class="block-card gym">
+        <p class="block-title">Кардио / пресс / мелкие мышцы</p>
+        <p class="block-desc">Двор или парк — 75 минут. Запуск нейромедиаторов перед рабочим днём. После — душ.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="time-col">08:45 – 09:15</div>
+      <div class="block-card food">
+        <p class="block-title">Завтрак</p>
+        <p class="block-desc">Ешь спокойно. Музыка, перезагрузка. Заносишь приём в Yazio.</p>
+      </div>
+    </div>
+
+    <div class="divider-label">Утренний блок — контент</div>
+    <div class="block">
+      <div class="time-col">09:15 – 09:25</div>
+      <div class="block-card biz">
+        <p class="block-title">Директ — утренний блок</p>
+        <p class="block-desc">Ответы клиентам, заявки в личку — строго 10 минут. Закрыл — не открываешь до вечера.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="time-col">09:25 – 11:00</div>
+      <div class="block-card content">
+        <p class="block-title">Контент-блок — съёмка или монтаж</p>
+        <p class="block-desc">День 1 — снимаешь новый ролик или сторителлинг. День 2 — монтируешь то, что снял вчера. Сценарии 2–3 в неделю — тоже сюда. Не совмещать съёмку и монтаж в один день.</p>
+      </div>
+    </div>
+
+    <div class="divider-label">Второй блок — стратегия и курс</div>
+    <div class="block">
+      <div class="time-col">11:00 – 12:30</div>
+      <div class="block-card biz">
+        <p class="block-title">Уроки курса / презентации / стратегия</p>
+        <p class="block-desc">Создание уроков Кода тела, презентации, стратегические решения. Голова ещё в рабочем ритме — используй для глубокой работы.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="time-col">12:30 – 13:20</div>
+      <div class="block-card food">
+        <p class="block-title">Обед + пауза</p>
+        <p class="block-desc">Готовишь и ешь. Музыка. Не работаешь. Заносишь в Yazio.</p>
+      </div>
+    </div>
+
+    <div class="divider-label">Послеобеденный блок</div>
+    <div class="block">
+      <div class="time-col">13:20 – 14:20</div>
+      <div class="block-card content">
+        <p class="block-title">Выставление контента — батчинг</p>
+        <p class="block-desc">Telegram + YouTube + "читай в описании" — весь контент за один присест. Карусель с женой раз в 2 дня — сюда (20 мин). Не растягивать на весь день.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="time-col">14:20 – 15:20</div>
+      <div class="block-card biz">
+        <p class="block-title">Воронка / автоматизация / сайт</p>
+        <p class="block-desc">Таймер — строго 1 час. В дни с обучением сокращается до 30 минут. Закрыл таймер — закрыл ноутбук.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="time-col">15:20 – 15:30</div>
+      <div class="block-card biz">
+        <p class="block-title">Директ вечерний + итоги дня</p>
+        <p class="block-desc">10 мин — ответы. Список задач на завтра. Ноутбук закрыт.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="time-col">15:30 – 16:30</div>
+      <div class="block-card learn">
+        <p class="block-title">Обучение — через день</p>
+        <p class="block-desc">Урок или домашка — чередуются. Когда нет обучения — слот свободный или добавляется к воронке.</p>
+      </div>
+    </div>
+
+    <div class="divider-label">Вечер — тотальная свобода</div>
+    <div class="block">
+      <div class="time-col">16:30 – 22:30</div>
+      <div class="block-card free">
+        <p class="block-title">Тотальная свобода — 6 часов</p>
+        <p class="block-desc">Жена, прогулка, шаги, город. Голова полностью отключена. Кортизол снижается. Никаких рабочих задач.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="time-col">22:30 – 23:00</div>
+      <div class="block-card wind">
+        <p class="block-title">Замедление + благодарность</p>
+        <p class="block-desc">Дневник. Спокойная музыка. Общение с женой без важных тем.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="time-col">23:00 – 23:10</div>
+      <div class="block-card wind">
+        <p class="block-title">Отбой</p>
+        <p class="block-desc">Книга или природа — 10 минут. Встаёшь в 07:00.</p>
+      </div>
+    </div>
+    <div class="sleep-banner">✅ Сон в проектные дни: 23:10 → 07:00 = 7 ч 50 мин. Хорошее восстановление.</div>
+  </div>
+
+  <!-- ВОСКРЕСЕНЬЕ -->
+  <div class="schedule" id="day-sunday">
+    <div class="divider-label">Утро — самое медленное в неделе</div>
+    <div class="block">
+      <div class="time-col">07:30 – 08:15</div>
+      <div class="block-card morning">
+        <p class="block-title">Подъём без спешки</p>
+        <p class="block-desc">Вода, гепатопротекторы, медитация. Авиарежим. Море с утра — идеально. День перезагрузки недели.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="time-col">08:15 – 09:30</div>
+      <div class="block-card gym">
+        <p class="block-title">Лёгкое кардио / прогулка</p>
+        <p class="block-desc">Без давления. Кардио во дворе или длинная прогулка. Душ. Готовка и завтрак.</p>
+      </div>
+    </div>
+
+    <div class="divider-label">Рабочий блок — только необходимое</div>
+    <div class="block">
+      <div class="time-col">09:30 – 11:30</div>
+      <div class="block-card biz">
+        <p class="block-title">Программы питания и тренировок для клиентов</p>
+        <p class="block-desc">Написание программ — раз в неделю, только сюда. Спокойная фокусная работа без спешки.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="time-col">11:30 – 12:30</div>
+      <div class="block-card biz">
+        <p class="block-title">Стратегия на неделю / незакрытые задачи</p>
+        <p class="block-desc">Планирование следующей недели, монтаж сторителлинга если снял в другой день, хвосты по курсу.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="time-col">12:30 – 13:00</div>
+      <div class="block-card biz">
+        <p class="block-title">Директ + итоги недели</p>
+        <p class="block-desc">10 мин директ. Закрытие хвостов. Список приоритетов на понедельник. Ноутбук закрыт до понедельника.</p>
+      </div>
+    </div>
+
+    <div class="divider-label">День принадлежит тебе</div>
+    <div class="block">
+      <div class="time-col">13:00 – 22:30</div>
+      <div class="block-card free">
+        <p class="block-title">Тотальная свобода — 9.5 часов</p>
+        <p class="block-desc">Жена, парк, семья, город, еда, отдых. Никакого контента, никаких задач. Воскресенье — это топливо на всю следующую неделю.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="time-col">22:30 – 23:00</div>
+      <div class="block-card wind">
+        <p class="block-title">Замедление + благодарность</p>
+        <p class="block-desc">Дневник. Спокойная музыка. Общение с женой. Никаких важных разговоров.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="time-col">23:00 – 23:10</div>
+      <div class="block-card wind">
+        <p class="block-title">Отбой</p>
+        <p class="block-desc">Книга или природа — 10 минут. Встаёшь завтра в 06:00.</p>
+      </div>
+    </div>
+    <div class="sleep-banner">✅ Сон воскресенье: 23:10 → 06:00 = 6 ч 50 мин. Заряжен для дня зала в понедельник.</div>
+    <div class="note-box">
+      <strong>Логика воскресенья:</strong> работаешь только утром — 3.5 часа, только то что нельзя делать в потоке недели. После 13:00 ты не предприниматель, ты человек. Это не слабость — это топливо на неделю.
+    </div>
+  </div>
+</div>
+
+<script>
+function showDay(id, el) {
+  document.querySelectorAll('.schedule').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('day-' + id).classList.add('active');
+  el.classList.add('active');
+}
+</script>
